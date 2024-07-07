@@ -87,7 +87,7 @@ function __mattgui_class__(parent, _self = self) constructor
 			{
 				with(global.__mattgui_objects__[i])
 				{
-					if(__parent__.id == other.__self__.id)
+					if(instance_exists(__self__) and instance_exists(__parent__) and instance_exists(other.__self__) and __parent__.id == other.__self__.id)
 					{
 						set_position();
 					}
@@ -104,3 +104,20 @@ function __mattgui_class__(parent, _self = self) constructor
 
 
 global.__mattgui_objects__ = [];
+
+function __mattgui_loop__()
+{
+	for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
+	{
+		with(global.__mattgui_objects__[i])
+		{
+			if(!instance_exists(__self__))
+			{
+				delete self;
+			}
+		}
+	}
+	call_later(1,time_source_units_frames,__mattgui_loop__());
+}
+
+__mattgui_loop__();
