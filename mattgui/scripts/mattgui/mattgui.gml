@@ -28,12 +28,12 @@ function __mattgui_class__(parent = "none", _self = self) constructor
 	
 	__no_parent_action__ = "die";
 	
-	function set_parent(parent){__parent__ = parent;}
-	function set_align_to_parent(halign,valign){__halign_to_parent__ = halign; __valign_to_parent__ = valign;}
-	function set_align(halign,valign){__halign__ = halign; __valign__ = valign;}
-	function set_offset(xoffset,yoffset){__xoffset__ = xoffset;__yoffset__ = yoffset;}
-	function set_no_parent_action(action){__no_parent_action__ = action;}
-	function set_round_pos(_bool){__round_pos__ = _bool;}
+	function set_parent(parent){__parent__ = parent; return self;}
+	function set_align_to_parent(halign,valign){__halign_to_parent__ = halign; __valign_to_parent__ = valign; return self;}
+	function set_align(halign,valign){__halign__ = halign; __valign__ = valign; return self;}
+	function set_offset(xoffset,yoffset){__xoffset__ = xoffset;__yoffset__ = yoffset; return self;}
+	function set_no_parent_action(action){__no_parent_action__ = action; return self;}
+	function set_round_pos(_bool){__round_pos__ = _bool; return self;}
 	
 	function set_position()
 	{
@@ -117,6 +117,8 @@ function __mattgui_class__(parent = "none", _self = self) constructor
 				if(__no_parent_action__ == "die"){instance_destroy(__self__);}
 			}
 		}
+		
+		return self;
 	}
 }
 
