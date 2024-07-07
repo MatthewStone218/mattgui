@@ -66,6 +66,7 @@ function __mattgui_class__(parent = "none", _self) constructor
 		{
 			if(__no_parent_action__ == "die"){instance_destroy(__self__);}
 		}
+		return self;
 	}
 	
 	static set_position = function()

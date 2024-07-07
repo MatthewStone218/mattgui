@@ -12,3 +12,8 @@ if(obj_menu_list.image_alpha == 1)
 	gui_1.set_activation(false);
 	gui_2.set_activation(true);
 }
+else
+{
+	gui_1.set_activation(true);
+	gui_2.set_activation(false);
+}
