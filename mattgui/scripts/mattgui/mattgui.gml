@@ -2,10 +2,10 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 참조
 
 function mattgui(parent){
-	return new __mattgui_class__(parent);
+	return new __mattgui_class__(parent,id);
 }
 
-function __mattgui_class__(parent = "none", _self = self) constructor
+function __mattgui_class__(parent = "none", _self) constructor
 {
 	array_push(global.__mattgui_objects__,self);
 	
@@ -13,6 +13,11 @@ function __mattgui_class__(parent = "none", _self = self) constructor
 	{
 		__parent__ = parent.id;
 	}
+	else
+	{
+		__parent__ = parent;
+	}
+	
 	__self__ = _self;
 	
 	__round_pos__ = true;
@@ -43,7 +48,7 @@ function __mattgui_class__(parent = "none", _self = self) constructor
 			{
 				with(global.__mattgui_objects__[i])
 				{
-					if(instance_exists(__self__) and instance_exists(__parent__) and instance_exists(other.__self__) and __parent__.id == other.__self__.id)
+					if(__parent__ != "none" and instance_exists(__self__) and instance_exists(__parent__) and instance_exists(other.__self__) and __parent__.id == other.__self__.id)
 					{
 						set_position();
 					}
@@ -59,21 +64,41 @@ function __mattgui_class__(parent = "none", _self = self) constructor
 				switch(__halign_to_parent__)
 				{
 					case "left": _x = __parent__.bbox_left; break;
-					case "center": _x = __parent__.bbox_right-__parent__.bbox_left; break;
+					case "center": _x = (__parent__.bbox_right+__parent__.bbox_left)/2; break;
 					case "right": _x = __parent__.bbox_right; break;
 					case "origin": _x = __parent__.x; break;
 				
-					default: show_message("wrong parent_halign element!") break;
+					default:
+						if(is_callable(__halign_to_parent__))
+						{
+							var _func = method(self,__halign_to_parent__);
+							_x = _func(_x);
+						}
+						else
+						{
+							show_message("wrong parent_halign element!")
+						}
+					break;
 				}
 			
 				switch(__valign_to_parent__)
 				{
 					case "top": _y = __parent__.bbox_top; break;
-					case "middle": _y = __parent__.bbox_bottom-__parent__.bbox_top; break;
+					case "middle": _y = (__parent__.bbox_bottom+__parent__.bbox_top)/2; break;
 					case "bottom": _y = __parent__.bbox_bottom; break;
 					case "origin": _y = __parent__.y; break;
 				
-					default: show_message("wrong parent_valign element!") break;
+					default:
+						if(is_callable(__valign_to_parent__))
+						{
+							var _func = method(self,__valign_to_parent__);
+							_y = _func(_y);
+						}
+						else
+						{
+							show_message("wrong parent_valign element!")
+						}
+					break;
 				}
 			
 				switch(__halign__)
@@ -83,21 +108,41 @@ function __mattgui_class__(parent = "none", _self = self) constructor
 					case "right": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left); break;
 					case "origin": break;
 				
-					default: show_message("wrong halign element!") break;
+					default:
+						if(is_callable(__halign__))
+						{
+							var _func = method(self,__halign__);
+							_x = _func(_x);
+						}
+						else
+						{
+							show_message("wrong halign element!")
+						}
+					break;
 				}
 			
 				switch(__valign__)
 				{
-					case "top": _x += __self__.sprite_yoffset; break;
-					case "middle": _x += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2; break;
-					case "bottom": _x += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top); break;
+					case "top": _y += __self__.sprite_yoffset; break;
+					case "middle": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2; break;
+					case "bottom": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top); break;
 					case "origin": break;
 				
-					default: show_message("wrong valign element!") break;
+					default:
+						if(is_callable(__valign__))
+						{
+							var _func = method(self,__valign__);
+							_y = _func(_y);
+						}
+						else
+						{
+							show_message("wrong valign element!")
+						}
+					break;
 				}
 			
-				__self__.x = _x;
-				__self__.y = _y;
+				__self__.x = _x+__xoffset__;
+				__self__.y = _y+__yoffset__;
 			
 				if(__round_pos__){__self__.x = round(__self__.x); __self__.y = round(__self__.y);}
 			
@@ -105,7 +150,7 @@ function __mattgui_class__(parent = "none", _self = self) constructor
 				{
 					with(global.__mattgui_objects__[i])
 					{
-						if(instance_exists(__self__) and instance_exists(__parent__) and instance_exists(other.__self__) and __parent__.id == other.__self__.id)
+						if(__parent__ != "none" and instance_exists(__self__) and instance_exists(__parent__) and instance_exists(other.__self__) and __parent__.id == other.__self__.id)
 						{
 							set_position();
 						}
