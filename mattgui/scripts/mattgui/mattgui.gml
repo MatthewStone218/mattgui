@@ -33,14 +33,21 @@ function __mattgui_class__(parent = "none", _self) constructor
 	
 	__no_parent_action__ = "die";
 	
-	function set_parent(parent){__parent__ = parent; return self;}
-	function set_align_to_parent(halign,valign){__halign_to_parent__ = halign; __valign_to_parent__ = valign; return self;}
-	function set_align(halign,valign){__halign__ = halign; __valign__ = valign; return self;}
-	function set_offset(xoffset,yoffset){__xoffset__ = xoffset;__yoffset__ = yoffset; return self;}
-	function set_no_parent_action(action){__no_parent_action__ = action; return self;}
-	function set_round_pos(_bool){__round_pos__ = _bool; return self;}
+	__last_frame__ = global.__mattgui_frame__;
 	
-	function set_offset_from_pos(xx,yy)
+	__xx__ = _self.x;
+	__yy__ = _self.y;
+	
+	static __pos_function__ = function(xx,yy){x = xx; y = yy;}
+	
+	static set_parent = function(parent){__parent__ = parent; return self;}
+	static set_align_to_parent = function(halign,valign){__halign_to_parent__ = halign; __valign_to_parent__ = valign; return self;}
+	static set_align = function(halign,valign){__halign__ = halign; __valign__ = valign; return self;}
+	static set_offset = function(xoffset,yoffset){__xoffset__ = xoffset;__yoffset__ = yoffset; return self;}
+	static set_no_parent_action = function(action){__no_parent_action__ = action; return self;}
+	static set_round_pos = function(_bool){__round_pos__ = _bool; return self;}
+	
+	static set_offset_from_pos = function(xx,yy)
 	{
 		if(instance_exists(__parent__))
 		{
@@ -55,8 +62,18 @@ function __mattgui_class__(parent = "none", _self) constructor
 		}
 	}
 	
-	function set_position()
+	static set_position = function()
 	{
+		if(__last_frame__ != global.__mattgui_frame__)
+		{
+			__last_frame__ = global.__mattgui_frame__;
+			__xx__ = _self.x;
+			__yy__ = _self.y;
+		}
+		
+		_self.x = __xx__;
+		_self.y = __yy__;
+		
 		if(__parent__ == "none")
 		{
 			for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
@@ -105,7 +122,7 @@ function __mattgui_class__(parent = "none", _self) constructor
 		return self;
 	}
 
-	function __get_align_pos__()
+	static __get_align_pos__ = function()
 	{
 		var _x,_y;
 		switch(__halign_to_parent__)
@@ -194,10 +211,13 @@ function __mattgui_class__(parent = "none", _self) constructor
 
 
 
+global.__mattgui_frame__ = 0;
 global.__mattgui_objects__ = [];
 
 function __mattgui_loop__()
 {
+	global.__mattgui_frame__++;
+
 	for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
 	{
 		with(global.__mattgui_objects__[i])
