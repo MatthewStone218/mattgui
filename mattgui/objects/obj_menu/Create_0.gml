@@ -5,15 +5,5 @@ gui_1 = mattgui();
 
 gui_2 = mattgui(obj_menu_list)
 .set_align_to_parent("left","bottom")
-.set_align("right","bottom");
-
-if(obj_menu_list.image_alpha == 1)
-{
-	gui_1.set_activation(false);
-	gui_2.set_activation(true);
-}
-else
-{
-	gui_1.set_activation(true);
-	gui_2.set_activation(false);
-}
+.set_align("right","bottom")
+;

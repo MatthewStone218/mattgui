@@ -43,15 +43,16 @@ function __mattgui_class__(parent = "none", _self) constructor
 	__xx_first__ = _self.x;
 	__yy_first__ = _self.y;
 	
-	static __pos_function__ = function(xx,yy){x = xx; y = yy;}
+	static __pos_function__ = function(xx,yy){x = xx; y = yy; return self;}
 	
-	static set_activation = function(_bool){__activated__ = _bool;}
+	static set_activation = function(_bool){__activated__ = _bool; if(__activated__){set_position();} return self;}
 	static set_parent = function(parent){__parent__ = parent; return self;}
 	static set_align_to_parent = function(halign,valign){__halign_to_parent__ = halign; __valign_to_parent__ = valign; return self;}
 	static set_align = function(halign,valign){__halign__ = halign; __valign__ = valign; return self;}
 	static set_offset = function(xoffset,yoffset){__xoffset__ = xoffset;__yoffset__ = yoffset; return self;}
 	static set_no_parent_action = function(action){__no_parent_action__ = action; return self;}
 	static set_round_pos = function(_bool){__round_pos__ = _bool; return self;}
+	static set_move_func = function(func){__pos_function__ = func; return self;}
 	
 	static set_offset_from_pos = function(xx,yy)
 	{
