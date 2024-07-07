@@ -96,9 +96,12 @@ function __mattgui_class__(parent = "none", _self) constructor
 				var _pos = __get_align_pos__();
 				_x = _pos[0];
 				_y = _pos[1];
-			
-				__self__.x = _x+__xoffset__;
-				__self__.y = _y+__yoffset__;
+				
+				with(__self__)
+				{
+					var _func = method(id, other.__pos_function__);
+					_func(_x+other.__xoffset__, _y+other.__yoffset__);
+				}
 			
 				if(__round_pos__){__self__.x = round(__self__.x); __self__.y = round(__self__.y);}
 			
