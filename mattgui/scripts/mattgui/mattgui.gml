@@ -18,6 +18,8 @@ function __mattgui_class__(parent = "none", _self) constructor
 		__parent__ = parent;
 	}
 	
+	__activated__ = true;
+	
 	__self__ = _self;
 	
 	__round_pos__ = true;
@@ -38,8 +40,12 @@ function __mattgui_class__(parent = "none", _self) constructor
 	__xx__ = _self.x;
 	__yy__ = _self.y;
 	
+	__xx_first__ = _self.x;
+	__yy_first__ = _self.y;
+	
 	static __pos_function__ = function(xx,yy){x = xx; y = yy;}
 	
+	static set_activation = function(_bool){__activated__ = _bool;}
 	static set_parent = function(parent){__parent__ = parent; return self;}
 	static set_align_to_parent = function(halign,valign){__halign_to_parent__ = halign; __valign_to_parent__ = valign; return self;}
 	static set_align = function(halign,valign){__halign__ = halign; __valign__ = valign; return self;}
@@ -64,47 +70,23 @@ function __mattgui_class__(parent = "none", _self) constructor
 	
 	static set_position = function()
 	{
-		if(__last_frame__ != global.__mattgui_frame__)
+		if(__activated__)
 		{
-			__last_frame__ = global.__mattgui_frame__;
-			__xx__ = _self.x;
-			__yy__ = _self.y;
-		}
-		
-		_self.x = __xx__;
-		_self.y = __yy__;
-		
-		if(__parent__ == "none")
-		{
-			for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
+			if(__last_frame__ != global.__mattgui_frame__)
 			{
-				with(global.__mattgui_objects__[i])
-				{
-					if(__parent__ != "none" and instance_exists(__self__) and instance_exists(__parent__) and instance_exists(other.__self__) and __parent__.id == other.__self__.id)
-					{
-						set_position();
-					}
-				}
+				__last_frame__ = global.__mattgui_frame__;
+				__xx__ = __self__.x;
+				__yy__ = __self__.y;
 			}
-		}
-		else
-		{
-			if(instance_exists(__parent__))
+		
+			__self__.x = __xx__;
+			__self__.y = __yy__;
+		
+			if(__parent__ == "none")
 			{
-				var _x,_y;
+				__self__.x = __xx_first__;
+				__self__.y = __yy_first__;
 				
-				var _pos = __get_align_pos__();
-				_x = _pos[0];
-				_y = _pos[1];
-				
-				with(__self__)
-				{
-					var _func = method(id, other.__pos_function__);
-					_func(_x+other.__xoffset__, _y+other.__yoffset__);
-				}
-			
-				if(__round_pos__){__self__.x = round(__self__.x); __self__.y = round(__self__.y);}
-			
 				for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
 				{
 					with(global.__mattgui_objects__[i])
@@ -118,7 +100,37 @@ function __mattgui_class__(parent = "none", _self) constructor
 			}
 			else
 			{
-				if(__no_parent_action__ == "die"){instance_destroy(__self__);}
+				if(instance_exists(__parent__))
+				{
+					var _x,_y;
+				
+					var _pos = __get_align_pos__();
+					_x = _pos[0];
+					_y = _pos[1];
+				
+					with(__self__)
+					{
+						var _func = method(id, other.__pos_function__);
+						_func(_x+other.__xoffset__, _y+other.__yoffset__);
+					}
+			
+					if(__round_pos__){__self__.x = round(__self__.x); __self__.y = round(__self__.y);}
+			
+					for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
+					{
+						with(global.__mattgui_objects__[i])
+						{
+							if(__parent__ != "none" and instance_exists(__self__) and instance_exists(__parent__) and instance_exists(other.__self__) and __parent__.id == other.__self__.id)
+							{
+								set_position();
+							}
+						}
+					}
+				}
+				else
+				{
+					if(__no_parent_action__ == "die"){instance_destroy(__self__);}
+				}
 			}
 		}
 		
