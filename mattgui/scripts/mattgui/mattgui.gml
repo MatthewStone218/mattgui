@@ -40,6 +40,21 @@ function __mattgui_class__(parent = "none", _self) constructor
 	function set_no_parent_action(action){__no_parent_action__ = action; return self;}
 	function set_round_pos(_bool){__round_pos__ = _bool; return self;}
 	
+	function set_offset_from_pos(xx,yy)
+	{
+		if(instance_exists(__parent__))
+		{
+			var _pos = __get_align_pos__();
+			
+			__xoffset__ = xx-_pos[0];
+			__yoffset__ = yy-_pos[1];
+		}
+		else
+		{
+			if(__no_parent_action__ == "die"){instance_destroy(__self__);}
+		}
+	}
+	
 	function set_position()
 	{
 		if(__parent__ == "none")
@@ -59,87 +74,11 @@ function __mattgui_class__(parent = "none", _self) constructor
 		{
 			if(instance_exists(__parent__))
 			{
-				var _x, _y;
-			
-				switch(__halign_to_parent__)
-				{
-					case "left": _x = __parent__.bbox_left; break;
-					case "center": _x = (__parent__.bbox_right+__parent__.bbox_left)/2; break;
-					case "right": _x = __parent__.bbox_right; break;
-					case "origin": _x = __parent__.x; break;
+				var _x,_y;
 				
-					default:
-						if(is_callable(__halign_to_parent__))
-						{
-							var _func = method(self,__halign_to_parent__);
-							_x = _func(_x);
-						}
-						else
-						{
-							show_message("wrong parent_halign element!")
-						}
-					break;
-				}
-			
-				switch(__valign_to_parent__)
-				{
-					case "top": _y = __parent__.bbox_top; break;
-					case "middle": _y = (__parent__.bbox_bottom+__parent__.bbox_top)/2; break;
-					case "bottom": _y = __parent__.bbox_bottom; break;
-					case "origin": _y = __parent__.y; break;
-				
-					default:
-						if(is_callable(__valign_to_parent__))
-						{
-							var _func = method(self,__valign_to_parent__);
-							_y = _func(_y);
-						}
-						else
-						{
-							show_message("wrong parent_valign element!")
-						}
-					break;
-				}
-			
-				switch(__halign__)
-				{
-					case "left": _x += __self__.sprite_xoffset; break;
-					case "center": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left)/2; break;
-					case "right": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left); break;
-					case "origin": break;
-				
-					default:
-						if(is_callable(__halign__))
-						{
-							var _func = method(self,__halign__);
-							_x = _func(_x);
-						}
-						else
-						{
-							show_message("wrong halign element!")
-						}
-					break;
-				}
-			
-				switch(__valign__)
-				{
-					case "top": _y += __self__.sprite_yoffset; break;
-					case "middle": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2; break;
-					case "bottom": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top); break;
-					case "origin": break;
-				
-					default:
-						if(is_callable(__valign__))
-						{
-							var _func = method(self,__valign__);
-							_y = _func(_y);
-						}
-						else
-						{
-							show_message("wrong valign element!")
-						}
-					break;
-				}
+				var _pos = __get_align_pos__();
+				_x = _pos[0];
+				_y = _pos[1];
 			
 				__self__.x = _x+__xoffset__;
 				__self__.y = _y+__yoffset__;
@@ -164,6 +103,92 @@ function __mattgui_class__(parent = "none", _self) constructor
 		}
 		
 		return self;
+	}
+
+	function __get_align_pos__()
+	{
+		var _x,_y;
+		switch(__halign_to_parent__)
+		{
+			case "left": _x = __parent__.bbox_left; break;
+			case "center": _x = (__parent__.bbox_right+__parent__.bbox_left)/2; break;
+			case "right": _x = __parent__.bbox_right; break;
+			case "origin": _x = __parent__.x; break;
+				
+			default:
+				if(is_callable(__halign_to_parent__))
+				{
+					var _func = method(self,__halign_to_parent__);
+					_x = _func(_x);
+				}
+				else
+				{
+					show_message("wrong parent_halign element!")
+				}
+			break;
+		}
+			
+		switch(__valign_to_parent__)
+		{
+			case "top": _y = __parent__.bbox_top; break;
+			case "middle": _y = (__parent__.bbox_bottom+__parent__.bbox_top)/2; break;
+			case "bottom": _y = __parent__.bbox_bottom; break;
+			case "origin": _y = __parent__.y; break;
+				
+			default:
+				if(is_callable(__valign_to_parent__))
+				{
+					var _func = method(self,__valign_to_parent__);
+					_y = _func(_y);
+				}
+				else
+				{
+					show_message("wrong parent_valign element!")
+				}
+			break;
+		}
+			
+		switch(__halign__)
+		{
+			case "left": _x += __self__.sprite_xoffset; break;
+			case "center": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left)/2; break;
+			case "right": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left); break;
+			case "origin": break;
+				
+			default:
+				if(is_callable(__halign__))
+				{
+					var _func = method(self,__halign__);
+					_x = _func(_x);
+				}
+				else
+				{
+					show_message("wrong halign element!")
+				}
+			break;
+		}
+			
+		switch(__valign__)
+		{
+			case "top": _y += __self__.sprite_yoffset; break;
+			case "middle": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2; break;
+			case "bottom": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top); break;
+			case "origin": break;
+				
+			default:
+				if(is_callable(__valign__))
+				{
+					var _func = method(self,__valign__);
+					_y = _func(_y);
+				}
+				else
+				{
+					show_message("wrong valign element!")
+				}
+			break;
+		}
+	
+		return [_x,_y];
 	}
 }
 
