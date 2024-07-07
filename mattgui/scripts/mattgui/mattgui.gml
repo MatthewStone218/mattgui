@@ -86,8 +86,11 @@ function __mattgui_class__(parent = "none", _self) constructor
 		
 			if(__parent__ == "none")
 			{
-				__self__.x = __xx_first__;
-				__self__.y = __yy_first__;
+				with(__self__)
+				{
+					var _func = method(id, other.__pos_function__);
+					_func(other.__xx_first__+other.__xoffset__, other.__yy_first__+other.__yoffset__);
+				}
 				
 				for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
 				{
