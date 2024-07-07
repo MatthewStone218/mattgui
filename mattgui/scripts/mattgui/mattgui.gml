@@ -5,11 +5,12 @@ function mattgui(parent){
 	return new __mattgui_class__(parent);
 }
 
-function __mattgui_class__(parent) constructor
+function __mattgui_class__(parent, _self = self) constructor
 {
 	array_push(global.__mattgui_objects__,self);
 	
 	__parent__ = parent;
+	__self__ = _self;
 	
 	__round_pos__ = true;
 	
@@ -59,9 +60,9 @@ function __mattgui_class__(parent) constructor
 			
 			switch(__halign__)
 			{
-				case "left": _x += sprite_xoffset; break;
-				case "center": _x += sprite_xoffset-(bbox_right-bbox_left)/2; break;
-				case "right": _x += sprite_xoffset-(bbox_right-bbox_left); break;
+				case "left": _x += __self__.sprite_xoffset; break;
+				case "center": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left)/2; break;
+				case "right": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left); break;
 				case "origin": break;
 				
 				default: show_message("wrong halign element!") break;
@@ -69,22 +70,33 @@ function __mattgui_class__(parent) constructor
 			
 			switch(__valign__)
 			{
-				case "top": _x += sprite_yoffset; break;
-				case "middle": _x += sprite_yoffset-(bbox_bottom-bbox_top)/2; break;
-				case "bottom": _x += sprite_yoffset-(bbox_bottom-bbox_top); break;
+				case "top": _x += __self__.sprite_yoffset; break;
+				case "middle": _x += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2; break;
+				case "bottom": _x += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top); break;
 				case "origin": break;
 				
 				default: show_message("wrong valign element!") break;
 			}
 			
-			x = _x;
-			y = _y;
+			__self__.x = _x;
+			__self__.y = _y;
 			
-			if(__round_pos__){x = round(x); y = round(y);}
+			if(__round_pos__){__self__.x = round(__self__.x); __self__.y = round(__self__.y);}
+			
+			for(var i = 0; i < array_length(global.__mattgui_objects__); i++)
+			{
+				with(global.__mattgui_objects__[i])
+				{
+					if(__parent__.id == other.__self__.id)
+					{
+						set_position();
+					}
+				}
+			}
 		}
 		else
 		{
-			if(__no_parent_action__ == "die"){instance_destroy();}
+			if(__no_parent_action__ == "die"){instance_destroy(__self__);}
 		}
 	}
 }
