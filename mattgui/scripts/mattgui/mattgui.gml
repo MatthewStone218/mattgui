@@ -54,6 +54,11 @@ function __mattgui_class__(parent = "none", _self) constructor
 	static set_round_pos = function(_bool){__round_pos__ = _bool; return self;}
 	static set_move_func = function(func){__pos_function__ = func; return self;}
 	
+	static free = function(func)
+	{
+		array_delete(global.__mattgui_objects__,array_get_index(global.__mattgui_objects__,self),1);
+	}
+	
 	static set_offset_from_pos = function(xx,yy)
 	{
 		if(instance_exists(__parent__))
