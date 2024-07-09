@@ -1,8 +1,8 @@
 // v2.3.0에 대한 스크립트 어셋 변경됨 자세한 정보는
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 참조
 
-function mattgui(parent){
-	return new __mattgui_class__(parent,id);
+function mattgui(parent, _id = id){
+	return new __mattgui_class__(parent,_id);
 }
 
 function __mattgui_class__(parent = "none", _self) constructor
