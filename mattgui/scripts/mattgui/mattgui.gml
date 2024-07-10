@@ -18,6 +18,13 @@ function __mattgui_class__(parent = "none", _self) constructor
 		__parent__ = parent;
 	}
 	
+	__parent_xscale_flaxible__ = true;
+	__parent_yscale_flaxible__ = true;
+	__xscale_flaxible__ = true;
+	__yscale_flaxible__ = true;
+	__xscale__ = _self.image_xscale;
+	__yscale__ = _self.image_yscale;
+	
 	__activated__ = true;
 	
 	__self__ = _self;
@@ -53,6 +60,9 @@ function __mattgui_class__(parent = "none", _self) constructor
 	static set_no_parent_action = function(action){__no_parent_action__ = action; return self;}
 	static set_round_pos = function(_bool){__round_pos__ = _bool; return self;}
 	static set_move_func = function(func){__pos_function__ = func; return self;}
+	static set_parent_scale_flaxible = function(_bool1, _bool2){__parent_xscale_flaxible__ = _bool1; __parent_yscale_flaxible__ = _bool2; return self;}
+	static set_scale_flaxible = function(_bool1, _bool2){__xscale_flaxible__ = _bool1; __yscale_flaxible__ = _bool2; return self;}
+	static set_scale = function(xscale,yscale){__xscale__ = xscale; __yscale__ = yscale; return self;}
 	
 	static free = function(func)
 	{
@@ -152,9 +162,9 @@ function __mattgui_class__(parent = "none", _self) constructor
 		var _x,_y;
 		switch(__halign_to_parent__)
 		{
-			case "left": _x = __parent__.bbox_left; break;
-			case "center": _x = (__parent__.bbox_right+__parent__.bbox_left)/2; break;
-			case "right": _x = __parent__.bbox_right; break;
+			case "left": _x = __parent_xscale_flaxible__ ? __parent__.bbox_left : __parent__.x-sprite_get_xoffset(__parent__.sprite_index); break;
+			case "center": _x = __parent_xscale_flaxible__ ? (__parent__.bbox_right+__parent__.bbox_left)/2 : (__parent__.x-sprite_get_xoffset(__parent__.sprite_index)+__parent__.x+sprite_get_width(__parent__.sprite_index)-sprite_get_xoffset(__parent__.sprite_index))/2; break;
+			case "right": _x = __parent_xscale_flaxible__ ? __parent__.bbox_right : __parent__.x+sprite_get_width(__parent__.sprite_index)-sprite_get_xoffset(__parent__.sprite_index); break;
 			case "origin": _x = __parent__.x; break;
 				
 			default:
@@ -172,9 +182,9 @@ function __mattgui_class__(parent = "none", _self) constructor
 			
 		switch(__valign_to_parent__)
 		{
-			case "top": _y = __parent__.bbox_top; break;
-			case "middle": _y = (__parent__.bbox_bottom+__parent__.bbox_top)/2; break;
-			case "bottom": _y = __parent__.bbox_bottom; break;
+			case "top": _y = __parent_yscale_flaxible__ ? __parent__.bbox_top : __parent__.y-sprite_get_yoffset(__parent__.sprite_index); break;
+			case "middle": _y = __parent_yscale_flaxible__ ? (__parent__.bbox_bottom+__parent__.bbox_top)/2 : (__parent__.x-sprite_get_yoffset(__parent__.sprite_index)+__parent__.x+sprite_get_height(__parent__.sprite_index)-sprite_get_yoffset(__parent__.sprite_index))/2; break;
+			case "bottom": _y = __parent_xscale_flaxible__ ? __parent__.bbox_bottom : __parent__.y+sprite_get_height(__parent__.sprite_index)-sprite_get_yoffset(__parent__.sprite_index); break;
 			case "origin": _y = __parent__.y; break;
 				
 			default:
@@ -192,9 +202,9 @@ function __mattgui_class__(parent = "none", _self) constructor
 			
 		switch(__halign__)
 		{
-			case "left": _x += __self__.sprite_xoffset; break;
-			case "center": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left)/2; break;
-			case "right": _x += __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left); break;
+			case "left": _x += __xscale_flaxible__ ? __self__.sprite_xoffset : sprite_get_xoffset(__self__.sprite_index)*__xscale__; break;
+			case "center": _x += __xscale_flaxible__ ? __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left)/2 : (sprite_get_xoffset(__self__.sprite_index) - sprite_get_width(__self__.sprite_index)/2)*__xscale__; break;
+			case "right": _x += __xscale_flaxible__ ? __self__.sprite_xoffset-(__self__.bbox_right-__self__.bbox_left) : (sprite_get_xoffset(__self__.sprite_index)-sprite_get_width(__self__.sprite_index))*__xscale__; break;
 			case "origin": break;
 				
 			default:
@@ -212,9 +222,9 @@ function __mattgui_class__(parent = "none", _self) constructor
 			
 		switch(__valign__)
 		{
-			case "top": _y += __self__.sprite_yoffset; break;
-			case "middle": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2; break;
-			case "bottom": _y += __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top); break;
+			case "top": _y += __yscale_flaxible__ ? __self__.sprite_yoffset : sprite_get_yoffset(__self__.sprite_index)*__yscale__; break;
+			case "middle": _y += __yscale_flaxible__ ? __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2 : (sprite_get_yoffset(__self__.sprite_index) - sprite_get_width(__self__.sprite_index)/2)*__yscale__; break;
+			case "bottom": _y += __yscale_flaxible__ ? __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top) : (sprite_get_yoffset(__self__.sprite_index) - sprite_get_width(__self__.sprite_index))*__yscale__; break;
 			case "origin": break;
 				
 			default:
