@@ -18,6 +18,8 @@ function __mattgui_class__(parent = "none", _self) constructor
 		__parent__ = parent;
 	}
 	
+	__root_free__ = false;
+	
 	__parent_xscale_flaxible__ = true;
 	__parent_yscale_flaxible__ = true;
 	__xscale_flaxible__ = true;
@@ -50,10 +52,24 @@ function __mattgui_class__(parent = "none", _self) constructor
 	__xx_first__ = _self.x;
 	__yy_first__ = _self.y;
 	
-	static __pos_function__ = function(xx,yy){x = xx; y = yy; return self;}
+	static __pos_function__ = function(xx,yy){x = xx; y = yy;}
 	
 	static set_activation = function(_bool){__activated__ = _bool; if(__activated__){set_position();} return self;}
-	static set_parent = function(parent){__parent__ = parent; return self;}
+	static set_parent = function(parent){
+		parent ??= "none";
+		if(parent != "none")
+		{
+			__parent__ = parent.id;
+		}
+		else
+		{
+			__parent__ = parent;
+		}
+		
+		return self;
+	}
+	
+	static set_root_pos = function(xx,yy){__xx_first__ = xx; __yy_first__ = yy; return self;}
 	static set_align_to_parent = function(halign,valign){__halign_to_parent__ = halign; __valign_to_parent__ = valign; return self;}
 	static set_align = function(halign,valign){__halign__ = halign; __valign__ = valign; return self;}
 	static set_offset = function(xoffset,yoffset){__xoffset__ = xoffset;__yoffset__ = yoffset; return self;}
@@ -64,7 +80,7 @@ function __mattgui_class__(parent = "none", _self) constructor
 	static set_scale_flaxible = function(_bool1, _bool2){__xscale_flaxible__ = _bool1; __yscale_flaxible__ = _bool2; return self;}
 	static set_scale = function(xscale,yscale){__xscale__ = xscale; __yscale__ = yscale; return self;}
 	
-	static free = function(func)
+	static free = function()
 	{
 		array_delete(global.__mattgui_objects__,array_get_index(global.__mattgui_objects__,self),1);
 	}
