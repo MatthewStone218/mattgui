@@ -239,8 +239,8 @@ function __mattgui_class__(parent = "none", _self) constructor
 		switch(__valign__)
 		{
 			case "top": _y += __yscale_flaxible__ ? __self__.sprite_yoffset : sprite_get_yoffset(__self__.sprite_index)*__yscale__; break;
-			case "middle": _y += __yscale_flaxible__ ? __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2 : (sprite_get_yoffset(__self__.sprite_index) - sprite_get_width(__self__.sprite_index)/2)*__yscale__; break;
-			case "bottom": _y += __yscale_flaxible__ ? __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top) : (sprite_get_yoffset(__self__.sprite_index) - sprite_get_width(__self__.sprite_index))*__yscale__; break;
+			case "middle": _y += __yscale_flaxible__ ? __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top)/2 : (sprite_get_yoffset(__self__.sprite_index) - sprite_get_height(__self__.sprite_index)/2)*__yscale__; break;
+			case "bottom": _y += __yscale_flaxible__ ? __self__.sprite_yoffset-(__self__.bbox_bottom-__self__.bbox_top) : (sprite_get_yoffset(__self__.sprite_index) - sprite_get_height(__self__.sprite_index))*__yscale__; break;
 			case "origin": break;
 				
 			default:
