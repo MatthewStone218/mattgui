@@ -8,7 +8,11 @@ function mattgui(struct = -1, parent = -1){
 function __mattgui_node__(parent, struct) constructor
 {
 	self.parent = parent;
-	array_push(parent.children,self);
+	
+	if(parent != -1)
+	{
+		array_push(parent.children,self);
+	}
 
 	__rect_in__ = undefined;
 	__rect_out__ = undefined;
@@ -29,8 +33,13 @@ function __mattgui_node__(parent, struct) constructor
 		variable_struct_set(self,_names[i],struct[$ _names[i]]);
 	}
 	
-	static set_values_with_parent = function(x1, y1, x2, y2, _left, _right, _top, _bottom, _width, _height)
+	static set_values = function(x1, y1, x2, y2, _left, _right, _top, _bottom, _width, _height)
 	{
+		if(parent == -1)
+		{
+			show_error($"MattGUI: Root node can't use set_values.",true);
+		}
+		
 		if(_left[0])
 		{
 			if(_left[1])
@@ -108,19 +117,14 @@ function __mattgui_node__(parent, struct) constructor
 	{
 		if(parent == -1)
 		{
-			if((is_undefined(x) and is_undefined(left)) or (is_undefined(y) and is_undefined(top)))
+			if(is_undefined(left) or is_undefined(top))
 			{
-				show_error($"MattGUI: You need to set (x or left) and (y or top) for the root node.", true);
+				show_error($"MattGUI: You need to set left and top for the root node.", true);
 			}
 			
 			if(is_undefined(width) or is_undefined(height))
 			{
 				show_error($"MattGUI: You need to set width and height for the root node.", true);
-			}
-			
-			if(is_string(x) or is_string(y))
-			{
-				show_error($"MattGUI: You can't set the coordinate of root node as string", true);
 			}
 			
 			if(is_string(left) or is_string(top))
@@ -136,27 +140,11 @@ function __mattgui_node__(parent, struct) constructor
 			__rect_out__ = {};
 			__rect_in__ = {};
 
-			if(!is_undefined(x))
-			{
-				__rect_out__.left = x;
-				__rect_out__.right = x+width;
-			}
-			else
-			{
-				__rect_out__.left = left;
-				__rect_out__.right = left+width;
-			}
+			__rect_out__.left = left;
+			__rect_out__.right = left+width;
 
-			if(!is_undefined(y))
-			{
-				__rect_out__.top = y;
-				__rect_out__.bottom = y+height;
-			}
-			else
-			{
-				__rect_out__.top = top;
-				__rect_out__.bottom = top+bottom;
-			}
+			__rect_out__.top = top;
+			__rect_out__.bottom = top+height;
 			
 			__rect_out__.width = __rect_out__.right-__rect_out__.left;
 			__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
@@ -291,7 +279,7 @@ function __mattgui_node__(parent, struct) constructor
 	{
 		if(!is_undefined(__rect_out__))
 		{
-			if(absolute)
+			if(absolute or parent == -1)
 			{
 				return __rect_out__;
 			}
