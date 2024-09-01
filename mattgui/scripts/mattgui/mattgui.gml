@@ -113,7 +113,7 @@ function __mattgui_node__(parent, struct) constructor
 		}
 	}
 	
-	static calculate = function(calculate_chindren)
+	static calculate = function(calculate_chindren = true)
 	{
 		if(parent == -1)
 		{

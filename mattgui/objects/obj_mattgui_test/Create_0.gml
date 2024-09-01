@@ -7,5 +7,17 @@ root_gui = mattgui({
 	width: 1920-200,
 	height: 1080-200
 });
-
 instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: root_gui});
+
+var _gui;
+
+_gui = mattgui({
+	left: 0,
+	top: 0,
+	width: 200,
+	height: "100%"
+}
+,
+root_gui
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
