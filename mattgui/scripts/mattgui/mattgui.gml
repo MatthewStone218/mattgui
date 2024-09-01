@@ -197,47 +197,47 @@ function __mattgui_node__(parent, struct) constructor
 			
 			if(!is_undefined(left))
 			{
-				__rect_out__.left = parent.__rect_in__.left + (is_real(left) ? left : (parent.__rect_in__.width*real(string_digits(left))/100));
+				__rect_out__.left = parent.__rect_in__.left + (is_real(left) ? left : (parent.__rect_in__.width*percent_to_real(left)/100));
 					
 				if(!is_undefined(right))
 				{
-					__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*real(string_digits(right))/100));
+					__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*percent_to_real(right)/100));
 				}
 				else
 				{
-					__rect_out__.right = __rect_out__.left + (is_real(width) ? width : (parent.__rect_in__.width*real(string_digits(width))/100));
+					__rect_out__.right = __rect_out__.left + (is_real(width) ? width : (parent.__rect_in__.width*percent_to_real(width)/100));
 				}
 			}
 			else if(!is_undefined(right))
 			{
-				__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*real(string_digits(right))/100));
-				__rect_out__.left = parent.__rect_in__.right - (is_real(width) ? width : (parent.__rect_in__.width*real(string_digits(width))/100));
+				__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*percent_to_real(right)/100));
+				__rect_out__.left = parent.__rect_in__.right - (is_real(width) ? width : (parent.__rect_in__.width*percent_to_real(width)/100));
 			}
 			
 			if(!is_undefined(top))
 			{
-				__rect_out__.top = parent.__rect_in__.top + (is_real(top) ? top : (parent.__rect_in__.height*real(string_digits(top))/100));
+				__rect_out__.top = parent.__rect_in__.top + (is_real(top) ? top : (parent.__rect_in__.height*percent_to_real(top)/100));
 					
 				if(!is_undefined(bottom))
 				{
-					__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*real(string_digits(bottom))/100));
+					__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*percent_to_real(bottom)/100));
 				}
 				else
 				{
-					__rect_out__.bottom = __rect_out__.top + (is_real(height) ? height : (parent.__rect_in__.height*real(string_digits(height))/100));
+					__rect_out__.bottom = __rect_out__.top + (is_real(height) ? height : (parent.__rect_in__.height*percent_to_real(height)/100));
 				}
 			}
 			else if(!is_undefined(bottom))
 			{
-				__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*real(string_digits(bottom))/100));
-				__rect_out__.top = parent.__rect_in__.bottom - (is_real(height) ? height : (parent.__rect_in__.height*real(string_digits(height))/100));
+				__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*percent_to_real(bottom)/100));
+				__rect_out__.top = parent.__rect_in__.bottom - (is_real(height) ? height : (parent.__rect_in__.height*percent_to_real(height)/100));
 			}
 			
 			__rect_out__.width = __rect_out__.right-__rect_out__.left;
 			__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
 			
-			var _offset_x = -(is_real(offset.x) ? offset.x : __rect_out__.width*real(string_digits(offset.x))/100);
-			var _offset_y = -(is_real(offset.y) ? offset.y : __rect_out__.height*real(string_digits(offset.y))/100);
+			var _offset_x = -(is_real(offset.x) ? offset.x : __rect_out__.width*percent_to_real(offset.x)/100);
+			var _offset_y = -(is_real(offset.y) ? offset.y : __rect_out__.height*percent_to_real(offset.y)/100);
 			
 			__rect_out__.left += _offset_x;
 			__rect_out__.right += _offset_x;

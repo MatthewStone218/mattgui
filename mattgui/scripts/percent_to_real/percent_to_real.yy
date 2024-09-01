@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"percent_to_real",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"percent_to_real",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

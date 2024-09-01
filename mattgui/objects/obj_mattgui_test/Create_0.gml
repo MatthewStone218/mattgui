@@ -46,4 +46,23 @@ for(var i = 0; i < 10; i++)
 	left_inner_gui
 	);
 	instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: left_slot_gui[i]});
+	
+	for(var ii = 0; ii < 3; ii++)
+	{
+		var _gui = mattgui({
+			left: string((100*ii/3)+100/6)+"%",
+			top: "50%",
+			width: 50,
+			height: 50,
+			offset:
+			{
+				x: "50%",
+				y: "50%"
+			}
+		}
+		,
+		left_slot_gui[i]
+		);
+		instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+	}
 }

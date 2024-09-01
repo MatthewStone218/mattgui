@@ -39,6 +39,7 @@
     {"id":{"name":"obj_mattgui_test","path":"objects/obj_mattgui_test/obj_mattgui_test.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"mattgui","path":"scripts/mattgui/mattgui.yy",},},
+    {"id":{"name":"percent_to_real","path":"scripts/percent_to_real/percent_to_real.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
