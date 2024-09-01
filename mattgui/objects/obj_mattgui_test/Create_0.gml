@@ -91,3 +91,27 @@ for(var i = 0; i < 3; i++)
 	);
 	instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: right_gui_inner});
 }
+
+right_up_gui = mattgui({
+	right: 20,
+	top: 20,
+	width: 100,
+	height: 100
+}
+,
+root_gui
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: right_up_gui});
+
+
+top_gui = mattgui({
+	left: "50%",
+	top: 0,
+	width: 100,
+	height: 50,
+	offset:{x: "50%", y:0}
+}
+,
+root_gui
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: top_gui});
