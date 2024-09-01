@@ -9,9 +9,8 @@ root_gui = mattgui({
 });
 instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: root_gui});
 
-var _gui;
 
-_gui = mattgui({
+left_gui = mattgui({
 	left: 0,
 	top: 0,
 	width: 200,
@@ -20,4 +19,31 @@ _gui = mattgui({
 ,
 root_gui
 );
-instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: left_gui});
+
+
+left_inner_gui = mattgui({
+	left: 10,
+	top: 10,
+	right: 10,
+	bottom: 10
+}
+,
+left_gui
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: left_gui});
+
+
+for(var i = 0; i < 10; i++)
+{
+	left_slot_gui[i] = mattgui({
+		left: 10,
+		top: 10+120*i,
+		right: 10,
+		height: 100
+	}
+	,
+	left_inner_gui
+	);
+	instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: left_slot_gui[i]});
+}

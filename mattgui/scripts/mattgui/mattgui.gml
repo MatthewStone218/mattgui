@@ -205,7 +205,7 @@ function __mattgui_node__(parent, struct) constructor
 				}
 				else
 				{
-					__rect_out__.right = parent.__rect_in__.left + (is_real(width) ? width : (parent.__rect_in__.width*real(string_digits(width))/100));
+					__rect_out__.right = __rect_out__.left + (is_real(width) ? width : (parent.__rect_in__.width*real(string_digits(width))/100));
 				}
 			}
 			else if(!is_undefined(right))
@@ -224,7 +224,7 @@ function __mattgui_node__(parent, struct) constructor
 				}
 				else
 				{
-					__rect_out__.bottom = parent.__rect_in__.top + (is_real(height) ? height : (parent.__rect_in__.height*real(string_digits(height))/100));
+					__rect_out__.bottom = __rect_out__.top + (is_real(height) ? height : (parent.__rect_in__.height*real(string_digits(height))/100));
 				}
 			}
 			else if(!is_undefined(bottom))
