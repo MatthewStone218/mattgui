@@ -52,8 +52,8 @@ for(var i = 0; i < 10; i++)
 		var _gui = mattgui({
 			left: string((100*ii/3)+100/6)+"%",
 			top: "50%",
-			width: 50,
-			height: 50,
+			width: 40,
+			height: 40,
 			offset:
 			{
 				x: "50%",
@@ -65,4 +65,29 @@ for(var i = 0; i < 10; i++)
 		);
 		instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
 	}
+}
+
+right_gui = mattgui({
+	right: 0,
+	bottom: 0,
+	width: "35%",
+	height: "35%"
+}
+,
+root_gui
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: right_gui});
+
+for(var i = 0; i < 3; i++)
+{
+	right_gui_inner = mattgui({
+		left: "10%",
+		right: "10%",
+		top: string(10+(80/3)*i) +"%",
+		height: string(80/3)+"%"
+	}
+	,
+	right_gui
+	);
+	instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: right_gui_inner});
 }
