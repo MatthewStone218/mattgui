@@ -1,5 +1,5 @@
 {
-  "$GMScript":"v1",
+  "$GMScript":"",
   "%Name":"mattgui",
   "isCompatibility":false,
   "isDnD":false,
