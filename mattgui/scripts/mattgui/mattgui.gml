@@ -29,6 +29,81 @@ function __mattgui_node__(parent, struct) constructor
 		variable_struct_set(self,_names[i],struct[$ _names[i]]);
 	}
 	
+	static set_values_with_parent = function(x1, y1, x2, y2, _left, _right, _top, _bottom, _width, _height)
+	{
+		if(_left[0])
+		{
+			if(_left[1])
+			{
+				left = string(100*(x1-parent.__rect_in__.left)/parent.__rect_in__.width)+"%";
+			}
+			else
+			{
+				left = x1-parent.__rect_in__.left;
+			}
+		}
+		
+		if(_right[0])
+		{
+			if(_right[1])
+			{
+				right = string(100*(parent.__rect_in__.right - x2)/parent.__rect_in__.width)+"%";
+			}
+			else
+			{
+				right = parent.__rect_in__.right - x2;
+			}
+		}
+		
+		if(_top[0])
+		{
+			if(_top[1])
+			{
+				top = string(100*(y1-parent.__rect_in__.top)/parent.__rect_in__.height)+"%";
+			}
+			else
+			{
+				top = y1-parent.__rect_in__.bottom;
+			}
+		}
+		
+		if(_bottom[0])
+		{
+			if(_bottom[1])
+			{
+				bottom = string(100*(parent.__rect_in__.bottom - y2)/parent.__rect_in__.height)+"%";
+			}
+			else
+			{
+				bottom = parent.__rect_in__.bottom - y2;
+			}
+		}
+		
+		if(_width[0])
+		{
+			if(_width[1])
+			{
+				width = string(100*(x2-x1)/parent.__rect_in__.width)+"%";
+			}
+			else
+			{
+				width = x2-x1;
+			}
+		}
+		
+		if(_height[0])
+		{
+			if(_height[1])
+			{
+				height = string(100*(y2-y1)/parent.__rect_in__.height)+"%";
+			}
+			else
+			{
+				height = y2-y1;
+			}
+		}
+	}
+	
 	static calculate = function(calculate_chindren)
 	{
 		if(parent == -1)
