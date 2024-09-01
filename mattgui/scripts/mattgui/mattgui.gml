@@ -99,9 +99,34 @@ function __mattgui_node__(parent, struct) constructor
 		}
 		else
 		{
-			if(!is_undefined(x) + !is_undefined(left) + !is_undefined(right) + !is_undefined(width) >= 3)
+			if(!is_undefined(left) && !is_undefined(right) && !is_undefined(width))
 			{
-				show_error($"MattGUI: Too many values(x,left,right,width). It would make contradiction.", true);
+				show_error($"MattGUI: You set left, right and width. It would make contradiction.", true);
+			}
+			
+			if(!is_undefined(top) && !is_undefined(bottom) && !is_undefined(height))
+			{
+				show_error($"MattGUI: You set top, bottom and height. It would make contradiction.", true);
+			}
+			
+			if(!is_undefined(left) + !is_undefined(right) + !is_undefined(width) == 1)
+			{
+				show_error($"MattGUI: You set only one of left, right and width. Needs more value to calculate.", true);
+			}
+			
+			if(!is_undefined(top) + !is_undefined(bottom) + !is_undefined(height) == 1)
+			{
+				show_error($"MattGUI: You set only one of top, bottom and height. Needs more value to calculate.", true);
+			}
+			
+			if(!is_undefined(left) + !is_undefined(right) + !is_undefined(width) == 1)
+			{
+				show_error($"MattGUI: You didn't set left, right and width. Needs more value to calculate.", true);
+			}
+			
+			if(!is_undefined(top) + !is_undefined(bottom) + !is_undefined(height) == 1)
+			{
+				show_error($"MattGUI: You didn't set top, bottom and height. Needs more value to calculate.", true);
 			}
 			
 			__rect_out__ = {};
@@ -189,13 +214,25 @@ function __mattgui_node__(parent, struct) constructor
 	
 	static get_values = function(absolute = true)
 	{
-		if(!is_undefined(self[$"__rect_out__"]))
+		if(!is_undefined(__rect_out__))
 		{
-			
+			if(absolute)
+			{
+				return __rect_out__;
+			}
+			else
+			{
+				return {
+					left: __rect_out__.left - parent.__rect_out__.left,
+					right: parent.__rect_out__.right - __rect_out__.right,
+					top: __rect_out__.top - parent.__rect_out__.top,
+					bottom: parent.__rect_out__.bottom - __rect_out__.bottom,
+				};
+			}
 		}
 		else
 		{
-			show_message("You need to calculate the gui before use it.");
+			show_message("You need to calculate the gui element before use it.");
 		}
 	};
 	
