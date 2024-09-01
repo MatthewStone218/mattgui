@@ -18,11 +18,8 @@ function __mattgui_node__(parent, struct) constructor
 	bottom = undefined;
 	width = undefined;
 	height = undefined;
-	padding = {};
-	x = undefined;
-	y = undefined;
+	padding = {left: undefined, right: undefined, top: undefined, bottom: undefined};
 	offset = {x: 0, y: 0};
-	anchor = undefined;
 	
 	children = [];
 	
@@ -36,24 +33,29 @@ function __mattgui_node__(parent, struct) constructor
 	{
 		if(parent == -1)
 		{
+			if((is_undefined(x) and is_undefined(left)) or (is_undefined(y) and is_undefined(top)))
+			{
+				show_error($"MattGUI: You need to set (x or left) and (y or top) for the root node.", true);
+			}
+			
 			if(is_undefined(width) or is_undefined(height))
 			{
-				show_message($"You need to set width and height for root node.");
+				show_error($"MattGUI: You need to set width and height for the root node.", true);
 			}
 			
 			if(is_string(x) or is_string(y))
 			{
-				show_message($"You can't set the coordinate of root node as string");
+				show_error($"MattGUI: You can't set the coordinate of root node as string", true);
 			}
 			
 			if(is_string(left) or is_string(top))
 			{
-				show_message($"You can't set the left/top value of root node as string");
+				show_error($"MattGUI: You can't set the left/top value of root node as string", true);
 			}
 			
 			if(is_string(width) or is_string(width))
 			{
-				show_message($"You can't set the width/height of root node as string");
+				show_error($"MattGUI: You can't set the width/height of root node as string", true);
 			}
 			
 			__rect_out__ = {};
@@ -86,10 +88,10 @@ function __mattgui_node__(parent, struct) constructor
 			
 			__rect_in__ =
 			{
-				left: (!is_undefined(padding[$"left"])) ? __rect_out__.left + padding.left : __rect_out__.left,
-				top: (!is_undefined(padding[$"top"])) ? __rect_out__.top + padding.top : __rect_out__.top,
-				right: (!is_undefined(padding[$"right"])) ? __rect_out__.right - padding.right : __rect_out__.right,
-				bottom: (!is_undefined(padding[$"bottom"])) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
+				left: (!is_undefined(padding.left)) ? __rect_out__.left + padding.left : __rect_out__.left,
+				top: (!is_undefined(padding.top)) ? __rect_out__.top + padding.top : __rect_out__.top,
+				right: (!is_undefined(padding.right)) ? __rect_out__.right - padding.right : __rect_out__.right,
+				bottom: (!is_undefined(padding.bottom)) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
 			}
 			
 			__rect_in__.width = __rect_in__.right-__rect_in__.left;
@@ -97,81 +99,54 @@ function __mattgui_node__(parent, struct) constructor
 		}
 		else
 		{
-			if(!is_undefined(x) and (is_undefined(left) or is_undefined(right)) and is_undefined(width))
+			if(!is_undefined(x) + !is_undefined(left) + !is_undefined(right) + !is_undefined(width) >= 3)
 			{
-				show_message($"Can't calculate left and right value from x,left,right,width.");
-			}
-			
-			if(!is_undefined(x) and !is_undefined(left) and !is_undefined(right))
-			{
-				show_message($"You are using x, left, right together. It will make contradiction.");
-			}
-			
-			if(!is_undefined(y) and !is_undefined(top) and !is_undefined(bottom))
-			{
-				show_message($"You are using y, top, bottom together. It will make contradiction.");
-			}
-			
-			if(!is_real(anchor.x) and !is_undefined(width))
-			{
-				show_message($"You need to set width when use anchor.x%");
-			}
-			
-			if(!is_real(anchor.y) and !is_undefined(height))
-			{
-				show_message($"You need to set height when use anchor.y%");
-			}
-			
-			if((is_undefined(left) or is_undefined(right)) and is_undefined(width))
-			{
-				show_message($"You need to set width if you undefined left or right");
-			}
-			
-			if((is_undefined(top) or is_undefined(bottom)) and is_undefined(height))
-			{
-				show_message($"You need to set height if you undefined top or bottom");
-			}
-			
-			if(is_undefined(left) and is_undefined(right) and is_undefined(x))
-			{
-				show_message($"Can't calculate. You didn't set left, right, x.");
-			}
-			
-			if(is_undefined(top) and is_undefined(bottom) and is_undefined(y))
-			{
-				show_message($"Can't calculate. You didn't set top, bottom, y.");
+				show_error($"MattGUI: Too many values(x,left,right,width). It would make contradiction.", true);
 			}
 			
 			__rect_out__ = {};
 			__rect_in__ = {};
 			
-			if(!is_undefined(x))
+			var _offset_x = -(is_real(offset.x) ? offset.x : width*string_digits(offset.x)/100);
+			
+			if(!is_undefined(left))
 			{
-				var _offset = (is_real(offset.x) ? offset.x : parent.__rect_in__.width*string_digits(x)/100) - (!is_undefined(anchor) ? (is_real(anchor.x) ? anchor.x : width*string_digits(x)/100) : 0);
-				if(is_undefined(left))
-				{
-					__rect_out__.left = parent.__rect_in__.left + (is_real(x) ? x : (parent.__rect_in__.width*string_digits(x)/100)) + _offset;
+				__rect_out__.left = parent.__rect_in__.left + (is_real(left) ? left : (parent.__rect_in__.width*string_digits(left)/100)) + _offset_x;
 					
-					if(is_undefined(right))
-					{
-						__rect_out__.right = __rect_out__.left+width;
-					}
-					else
-					{
-						__rect_out__.right = (is_real(right) ? right : parent.__rect_in__.width*string_digits(right)/100);
-					}
+				if(!is_undefined(right))
+				{
+					__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*string_digits(right)/100)) + _offset_x;
 				}
 				else
 				{
-					__rect_out__.left = parent.__rect_in__.left + left;
+					__rect_out__.right = parent.__rect_in__.left + (is_real(width) ? width : (parent.__rect_in__.width*string_digits(width)/100));
 				}
 			}
-			else
+			else if(!is_undefined(right))
 			{
-				if(!is_undefined(left))
-				{
+				__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*string_digits(right)/100)) + _offset_x;
+				__rect_out__.left = parent.__rect_in__.right - (is_real(width) ? width : (parent.__rect_in__.width*string_digits(width)/100));
+			}
+			
+			var _offset_y = -(is_real(offset.y) ? offset.y : height*string_digits(offset.y)/100);
+			
+			if(!is_undefined(top))
+			{
+				__rect_out__.top = parent.__rect_in__.top + (is_real(top) ? top : (parent.__rect_in__.height*string_digits(top)/100)) + _offset_y;
 					
+				if(!is_undefined(bottom))
+				{
+					__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*string_digits(bottom)/100)) + _offset_y;
 				}
+				else
+				{
+					__rect_out__.bottom = parent.__rect_in__.top + (is_real(height) ? height : (parent.__rect_in__.height*string_digits(height)/100));
+				}
+			}
+			else if(!is_undefined(bottom))
+			{
+				__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*string_digits(bottom)/100)) + _offset_y;
+				__rect_out__.top = parent.__rect_in__.bottom - (is_real(height) ? height : (parent.__rect_in__.height*string_digits(height)/100));
 			}
 			
 			__rect_out__.width = __rect_out__.right-__rect_out__.left;
@@ -179,10 +154,10 @@ function __mattgui_node__(parent, struct) constructor
 				
 			__rect_in__ =
 			{
-				left: (!is_undefined(padding[$"left"])) ? __rect_out__.left + padding.left : __rect_out__.left,
-				top: (!is_undefined(padding[$"top"])) ? __rect_out__.top + padding.top : __rect_out__.top,
-				right: (!is_undefined(padding[$"right"])) ? __rect_out__.right - padding.right : __rect_out__.right,
-				bottom: (!is_undefined(padding[$"bottom"])) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
+				left: (!is_undefined(padding.left)) ? __rect_out__.left + padding.left : __rect_out__.left,
+				top: (!is_undefined(padding.top)) ? __rect_out__.top + padding.top : __rect_out__.top,
+				right: (!is_undefined(padding.right)) ? __rect_out__.right - padding.right : __rect_out__.right,
+				bottom: (!is_undefined(padding.bottom)) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
 			}
 			
 			__rect_in__.width = __rect_in__.right-__rect_in__.left;
@@ -208,11 +183,8 @@ function __mattgui_node__(parent, struct) constructor
 		bottom = undefined;
 		width = undefined;
 		height = undefined;
-		padding = {};
-		x = undefined;
-		y = undefined;
+		padding = {left: undefined, right: undefined, top: undefined, bottom: undefined};
 		offset = {x: 0, y: 0};
-		anchor = undefined;
 	}
 	
 	static get_values = function(absolute = true)
