@@ -25,6 +25,22 @@ function __mattgui_node__(parent, struct) constructor
 	padding = {left: undefined, right: undefined, top: undefined, bottom: undefined};
 	offset = {x: 0, y: 0};
 	
+	prev_vals =
+	{
+		left: left,
+		right: right,
+		top: top,
+		bottom: bottom,
+		width: width,
+		height: height,
+		padding_left: padding.left,
+		padding_right: padding.right,
+		padding_top: padding.top,
+		padding_bottom: padding.bottom,
+		offset_x: offset.x,
+		offset_y: offset.y,
+	}
+	
 	children = [];
 	
 	var _names = struct_get_names(struct);
@@ -113,154 +129,183 @@ function __mattgui_node__(parent, struct) constructor
 		}
 	}
 	
-	static calculate = function(calculate_chindren = true)
+	static calculate = function(calculate_chindren = true, calculate_all = true)
 	{
-		if(parent == -1)
+		if(calculate_all or prev_vals.left != left or prev_vals.right != right or prev_vals.top != top or prev_vals.bottom != bottom or prev_vals.width != width or prev_vals.height != height or prev_vals.padding_left != padding.left or prev_vals.padding_right != padding.right or prev_vals.padding_top != padding.top or prev_vals.padding_bottom != padding.bottom or prev_vals.offset_x != offset.x or prev_vals.offset_y != offset.y)
 		{
-			if(is_undefined(left) or is_undefined(top))
+			if(parent == -1)
 			{
-				show_error($"MattGUI: You need to set left and top for the root node.", true);
-			}
+				if(is_undefined(left) or is_undefined(top))
+				{
+					show_error($"MattGUI: You need to set left and top for the root node.", true);
+				}
 			
-			if(is_undefined(width) or is_undefined(height))
-			{
-				show_error($"MattGUI: You need to set width and height for the root node.", true);
-			}
+				if(is_undefined(width) or is_undefined(height))
+				{
+					show_error($"MattGUI: You need to set width and height for the root node.", true);
+				}
 			
-			if(is_string(left) or is_string(top))
-			{
-				show_error($"MattGUI: You can't set the left/top value of root node as string", true);
-			}
+				if(is_string(left) or is_string(top))
+				{
+					show_error($"MattGUI: You can't set the left/top value of root node as string", true);
+				}
 			
-			if(is_string(width) or is_string(width))
-			{
-				show_error($"MattGUI: You can't set the width/height of root node as string", true);
-			}
+				if(is_string(width) or is_string(width))
+				{
+					show_error($"MattGUI: You can't set the width/height of root node as string", true);
+				}
 			
-			__rect_out__ = {};
-			__rect_in__ = {};
+				__rect_out__ = {};
+				__rect_in__ = {};
 
-			__rect_out__.left = left;
-			__rect_out__.right = left+width;
+				__rect_out__.left = left;
+				__rect_out__.right = left+width;
 
-			__rect_out__.top = top;
-			__rect_out__.bottom = top+height;
+				__rect_out__.top = top;
+				__rect_out__.bottom = top+height;
 			
-			__rect_out__.width = __rect_out__.right-__rect_out__.left;
-			__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
+				__rect_out__.width = __rect_out__.right-__rect_out__.left;
+				__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
 			
-			__rect_in__ =
-			{
-				left: (!is_undefined(padding.left)) ? __rect_out__.left + padding.left : __rect_out__.left,
-				top: (!is_undefined(padding.top)) ? __rect_out__.top + padding.top : __rect_out__.top,
-				right: (!is_undefined(padding.right)) ? __rect_out__.right - padding.right : __rect_out__.right,
-				bottom: (!is_undefined(padding.bottom)) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
+				__rect_in__ =
+				{
+					left: (!is_undefined(padding.left)) ? __rect_out__.left + padding.left : __rect_out__.left,
+					top: (!is_undefined(padding.top)) ? __rect_out__.top + padding.top : __rect_out__.top,
+					right: (!is_undefined(padding.right)) ? __rect_out__.right - padding.right : __rect_out__.right,
+					bottom: (!is_undefined(padding.bottom)) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
+				}
+			
+				__rect_in__.width = __rect_in__.right-__rect_in__.left;
+				__rect_in__.height = __rect_in__.bottom-__rect_in__.top;
 			}
+			else
+			{
+				if(!is_undefined(left) && !is_undefined(right) && !is_undefined(width))
+				{
+					show_error($"MattGUI: You set left, right and width. It would make contradiction.", true);
+				}
 			
-			__rect_in__.width = __rect_in__.right-__rect_in__.left;
-			__rect_in__.height = __rect_in__.bottom-__rect_in__.top;
+				if(!is_undefined(top) && !is_undefined(bottom) && !is_undefined(height))
+				{
+					show_error($"MattGUI: You set top, bottom and height. It would make contradiction.", true);
+				}
+			
+				if(!is_undefined(left) + !is_undefined(right) + !is_undefined(width) == 1)
+				{
+					show_error($"MattGUI: You set only one of left, right and width. Needs more value to calculate.", true);
+				}
+			
+				if(!is_undefined(top) + !is_undefined(bottom) + !is_undefined(height) == 1)
+				{
+					show_error($"MattGUI: You set only one of top, bottom and height. Needs more value to calculate.", true);
+				}
+			
+				if(!is_undefined(left) + !is_undefined(right) + !is_undefined(width) == 1)
+				{
+					show_error($"MattGUI: You didn't set left, right and width. Needs more value to calculate.", true);
+				}
+			
+				if(!is_undefined(top) + !is_undefined(bottom) + !is_undefined(height) == 1)
+				{
+					show_error($"MattGUI: You didn't set top, bottom and height. Needs more value to calculate.", true);
+				}
+			
+				__rect_out__ = {};
+				__rect_in__ = {};
+			
+				if(!is_undefined(left))
+				{
+					__rect_out__.left = parent.__rect_in__.left + (is_real(left) ? left : (parent.__rect_in__.width*percent_to_real(left)/100));
+					
+					if(!is_undefined(right))
+					{
+						__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*percent_to_real(right)/100));
+					}
+					else
+					{
+						__rect_out__.right = __rect_out__.left + (is_real(width) ? width : (parent.__rect_in__.width*percent_to_real(width)/100));
+					}
+				}
+				else if(!is_undefined(right))
+				{
+					__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*percent_to_real(right)/100));
+					__rect_out__.left = __rect_out__.right - (is_real(width) ? width : (parent.__rect_in__.width*percent_to_real(width)/100));
+				}
+			
+				if(!is_undefined(top))
+				{
+					__rect_out__.top = parent.__rect_in__.top + (is_real(top) ? top : (parent.__rect_in__.height*percent_to_real(top)/100));
+					
+					if(!is_undefined(bottom))
+					{
+						__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*percent_to_real(bottom)/100));
+					}
+					else
+					{
+						__rect_out__.bottom = __rect_out__.top + (is_real(height) ? height : (parent.__rect_in__.height*percent_to_real(height)/100));
+					}
+				}
+				else if(!is_undefined(bottom))
+				{
+					__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*percent_to_real(bottom)/100));
+					__rect_out__.top = __rect_out__.bottom - (is_real(height) ? height : (parent.__rect_in__.height*percent_to_real(height)/100));
+				}
+			
+				__rect_out__.width = __rect_out__.right-__rect_out__.left;
+				__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
+			
+				var _offset_x = -(is_real(offset.x) ? offset.x : __rect_out__.width*percent_to_real(offset.x)/100);
+				var _offset_y = -(is_real(offset.y) ? offset.y : __rect_out__.height*percent_to_real(offset.y)/100);
+			
+				__rect_out__.left += _offset_x;
+				__rect_out__.right += _offset_x;
+				__rect_out__.top += _offset_y;
+				__rect_out__.bottom += _offset_y;
+				
+				__rect_in__ =
+				{
+					left: (!is_undefined(padding.left)) ? __rect_out__.left + padding.left : __rect_out__.left,
+					top: (!is_undefined(padding.top)) ? __rect_out__.top + padding.top : __rect_out__.top,
+					right: (!is_undefined(padding.right)) ? __rect_out__.right - padding.right : __rect_out__.right,
+					bottom: (!is_undefined(padding.bottom)) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
+				}
+			
+				__rect_in__.width = __rect_in__.right-__rect_in__.left;
+				__rect_in__.height = __rect_in__.bottom-__rect_in__.top;
+			}
+		
+			prev_vals =
+			{
+				left: left,
+				right: right,
+				top: top,
+				bottom: bottom,
+				width: width,
+				height: height,
+				padding_left: padding.left,
+				padding_right: padding.right,
+				padding_top: padding.top,
+				padding_bottom: padding.bottom,
+				offset_x: offset.x,
+				offset_y: offset.y,
+			}
+		
+			if(calculate_chindren)
+			{
+				for(var i = 0; i < array_length(children); i++)
+				{
+					children[i].calculate();
+				}
+			}
 		}
 		else
 		{
-			if(!is_undefined(left) && !is_undefined(right) && !is_undefined(width))
+			if(calculate_chindren)
 			{
-				show_error($"MattGUI: You set left, right and width. It would make contradiction.", true);
-			}
-			
-			if(!is_undefined(top) && !is_undefined(bottom) && !is_undefined(height))
-			{
-				show_error($"MattGUI: You set top, bottom and height. It would make contradiction.", true);
-			}
-			
-			if(!is_undefined(left) + !is_undefined(right) + !is_undefined(width) == 1)
-			{
-				show_error($"MattGUI: You set only one of left, right and width. Needs more value to calculate.", true);
-			}
-			
-			if(!is_undefined(top) + !is_undefined(bottom) + !is_undefined(height) == 1)
-			{
-				show_error($"MattGUI: You set only one of top, bottom and height. Needs more value to calculate.", true);
-			}
-			
-			if(!is_undefined(left) + !is_undefined(right) + !is_undefined(width) == 1)
-			{
-				show_error($"MattGUI: You didn't set left, right and width. Needs more value to calculate.", true);
-			}
-			
-			if(!is_undefined(top) + !is_undefined(bottom) + !is_undefined(height) == 1)
-			{
-				show_error($"MattGUI: You didn't set top, bottom and height. Needs more value to calculate.", true);
-			}
-			
-			__rect_out__ = {};
-			__rect_in__ = {};
-			
-			if(!is_undefined(left))
-			{
-				__rect_out__.left = parent.__rect_in__.left + (is_real(left) ? left : (parent.__rect_in__.width*percent_to_real(left)/100));
-					
-				if(!is_undefined(right))
+				for(var i = 0; i < array_length(children); i++)
 				{
-					__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*percent_to_real(right)/100));
+					children[i].calculate(true, false);
 				}
-				else
-				{
-					__rect_out__.right = __rect_out__.left + (is_real(width) ? width : (parent.__rect_in__.width*percent_to_real(width)/100));
-				}
-			}
-			else if(!is_undefined(right))
-			{
-				__rect_out__.right = parent.__rect_in__.right - (is_real(right) ? right : (parent.__rect_in__.width*percent_to_real(right)/100));
-				__rect_out__.left = __rect_out__.right - (is_real(width) ? width : (parent.__rect_in__.width*percent_to_real(width)/100));
-			}
-			
-			if(!is_undefined(top))
-			{
-				__rect_out__.top = parent.__rect_in__.top + (is_real(top) ? top : (parent.__rect_in__.height*percent_to_real(top)/100));
-					
-				if(!is_undefined(bottom))
-				{
-					__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*percent_to_real(bottom)/100));
-				}
-				else
-				{
-					__rect_out__.bottom = __rect_out__.top + (is_real(height) ? height : (parent.__rect_in__.height*percent_to_real(height)/100));
-				}
-			}
-			else if(!is_undefined(bottom))
-			{
-				__rect_out__.bottom = parent.__rect_in__.bottom - (is_real(bottom) ? bottom : (parent.__rect_in__.height*percent_to_real(bottom)/100));
-				__rect_out__.top = __rect_out__.bottom - (is_real(height) ? height : (parent.__rect_in__.height*percent_to_real(height)/100));
-			}
-			
-			__rect_out__.width = __rect_out__.right-__rect_out__.left;
-			__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
-			
-			var _offset_x = -(is_real(offset.x) ? offset.x : __rect_out__.width*percent_to_real(offset.x)/100);
-			var _offset_y = -(is_real(offset.y) ? offset.y : __rect_out__.height*percent_to_real(offset.y)/100);
-			
-			__rect_out__.left += _offset_x;
-			__rect_out__.right += _offset_x;
-			__rect_out__.top += _offset_y;
-			__rect_out__.bottom += _offset_y;
-				
-			__rect_in__ =
-			{
-				left: (!is_undefined(padding.left)) ? __rect_out__.left + padding.left : __rect_out__.left,
-				top: (!is_undefined(padding.top)) ? __rect_out__.top + padding.top : __rect_out__.top,
-				right: (!is_undefined(padding.right)) ? __rect_out__.right - padding.right : __rect_out__.right,
-				bottom: (!is_undefined(padding.bottom)) ? __rect_out__.bottom - padding.bottom : __rect_out__.bottom,
-			}
-			
-			__rect_in__.width = __rect_in__.right-__rect_in__.left;
-			__rect_in__.height = __rect_in__.bottom-__rect_in__.top;
-		}
-		
-		if(calculate_chindren)
-		{
-			for(var i = 0; i < array_length(children); i++)
-			{
-				children[i].calculate();
 			}
 		}
 	};

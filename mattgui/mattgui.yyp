@@ -35,6 +35,7 @@
   },
   "name":"mattgui",
   "resources":[
+    {"id":{"name":"obj_flexpanel_test_rectangle","path":"objects/obj_flexpanel_test_rectangle/obj_flexpanel_test_rectangle.yy",},},
     {"id":{"name":"obj_mattgui_test_rectangle","path":"objects/obj_mattgui_test_rectangle/obj_mattgui_test_rectangle.yy",},},
     {"id":{"name":"obj_mattgui_test","path":"objects/obj_mattgui_test/obj_mattgui_test.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
