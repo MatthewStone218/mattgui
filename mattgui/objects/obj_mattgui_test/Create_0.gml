@@ -11,108 +11,286 @@ root_gui = mattgui({
 instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: root_gui});
 
 
-left_gui = mattgui({
+matt_frame = mattgui({
+	left: "5%",
+	top: "25%",
+	width: "43%",
+	height: "50%"
+},
+root_gui
+);
+//instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: matt_frame});
+
+gui_frame = mattgui({
+	left: "52%",
+	top: "25%",
+	width: "43%",
+	height: "50%"
+},
+root_gui
+);
+//instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: gui_frame});
+
+
+var _gui = mattgui({
 	left: 0,
 	top: 0,
-	width: 200,
-	height: "100%"
-}
-,
-root_gui
+	width: $"7%",
+	bottom: 0
+},
+matt_frame
 );
-instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: left_gui});
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
 
 
-left_inner_gui = mattgui({
-	left: 10,
-	top: 10,
-	right: 10,
-	bottom: 10
-}
-,
-left_gui
+var _gui = mattgui({
+	left: $"7%",
+	top: $"11%",
+	width: $"7%",
+	height: "22%"
+},
+matt_frame
 );
-instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: left_gui});
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
 
 
-for(var i = 0; i < 10; i++)
-{
-	left_slot_gui[i] = mattgui({
-		left: 10,
-		top: 10+120*i,
-		right: 10,
-		height: 100
-	}
-	,
-	left_inner_gui
-	);
-	instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: left_slot_gui[i]});
-	
-	for(var ii = 0; ii < 3; ii++)
-	{
-		var _gui = mattgui({
-			left: string((100*ii/3)+100/6)+"%",
-			top: "50%",
-			width: 40,
-			height: 40,
-			offset:
-			{
-				x: "50%",
-				y: "50%"
-			}
-		}
-		,
-		left_slot_gui[i]
-		);
-		instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
-	}
-}
-
-right_gui = mattgui({
-	right: 0,
-	bottom: 0,
-	width: "35%",
-	height: "35%"
-}
-,
-root_gui
+var _gui = mattgui({
+	left: $"14%",
+	top: $"33%",
+	width: $"7%",
+	height: "22%"
+},
+matt_frame
 );
-instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: right_gui});
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
 
-for(var i = 0; i < 3; i++)
-{
-	right_gui_inner = mattgui({
-		left: "10%",
-		right: "10%",
-		top: string(10+(80/3)*i) +"%",
-		height: string(80/3)+"%"
-	}
-	,
-	right_gui
-	);
-	instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: right_gui_inner});
-}
 
-right_up_gui = mattgui({
-	right: 20,
-	top: 20,
-	width: 100,
-	height: 100
-}
-,
-root_gui
+var _gui = mattgui({
+	left: $"21%",
+	top: $"11%",
+	width: $"7%",
+	height: "22%"
+},
+matt_frame
 );
-instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: right_up_gui});
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
 
 
-top_gui = mattgui({
-	left: "50%",
+var _gui = mattgui({
+	left: "28%",
 	top: 0,
-	width: 100,
-	height: 50,
-	offset:{x: "50%", y:0}
-}
-,
-root_gui
+	width: $"7%",
+	bottom: 0
+},
+matt_frame
 );
-instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: top_gui});
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "42%",
+	bottom: 0,
+	width: $"21%",
+	height: "33%"
+},
+matt_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "33%",
+	top: "33%",
+	width: $"33%",
+	height: "33%"
+},
+_gui
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "63%",
+	bottom: 0,
+	width: $"7%",
+	height: "11%"
+},
+matt_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "63%",
+	top: "22%",
+	right: 0,
+	height: "11%"
+},
+matt_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "70%",
+	top: "11%",
+	width: "7%",
+	bottom: 0
+},
+matt_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "84%",
+	top: "11%",
+	width: "7%",
+	bottom: 0
+},
+matt_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: 0,
+	top: "22%",
+	width: "7%",
+	bottom: "22%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "7%",
+	top: "11%",
+	width: "7%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "7%",
+	bottom: "11%",
+	width: "7%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "14%",
+	bottom: 0,
+	width: "14%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "14%",
+	top: 0,
+	width: "14%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "28%",
+	top: "11%",
+	width: "7%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "28%",
+	bottom: "11%",
+	width: "7%",
+	height: "33%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "21%",
+	bottom: "33%",
+	width: "21%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "49%",
+	bottom: 0,
+	width: "21%",
+	height: "33%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "33%",
+	bottom: "33%",
+	right: "33%",
+	top: 0
+},
+_gui
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "70%",
+	bottom: 0,
+	width: "7%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "88%",
+	bottom: 0,
+	width: "7%",
+	height: "44%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
+
+
+var _gui = mattgui({
+	left: "88%",
+	bottom: "55%",
+	width: "7%",
+	height: "11%"
+},
+gui_frame
+);
+instance_create_depth(0,0,0,obj_mattgui_test_rectangle,{gui: _gui});
