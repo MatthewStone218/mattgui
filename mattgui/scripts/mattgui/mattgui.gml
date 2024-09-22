@@ -479,6 +479,7 @@ function __mattgui_node__(parent, struct) constructor
 		if(parent != -1)
 		{
 			array_delete(parent.children,array_get_index(parent.children,self),1);
+			parent = -1;
 		}
 	};
 }
