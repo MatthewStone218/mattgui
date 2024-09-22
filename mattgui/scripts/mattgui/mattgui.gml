@@ -324,7 +324,7 @@ function __mattgui_node__(parent, struct) constructor
 		offset = {x: 0, y: 0};
 	}
 	
-	static get_values = function(absolute = true)
+	static get_calculated_values = function(absolute = true)
 	{
 		if(!is_undefined(__rect_out__))
 		{
@@ -347,6 +347,124 @@ function __mattgui_node__(parent, struct) constructor
 			show_message("You need to calculate the gui element before use it.");
 		}
 	};
+	
+	static get_calculated_left = function(absolute = true){
+		if(!is_undefined(__rect_out__)){
+			if(absolute or parent == -1){
+				return __rect_out__.left;
+			} else {
+				return __rect_out__.left - parent.__rect_out__.left;
+			}
+		} else {
+			show_message("You need to calculate the gui element before use it.");
+		}
+	}
+	static get_calculated_right = function(absolute = true){
+		if(!is_undefined(__rect_out__)){
+			if(absolute or parent == -1){
+				return __rect_out__.right;
+			} else {
+				return parent.__rect_out__.right - __rect_out__.right;
+			}
+		} else {
+			show_message("You need to calculate the gui element before use it.");
+		}
+	}
+	static get_calculated_top = function(absolute = true){
+		if(!is_undefined(__rect_out__)){
+			if(absolute or parent == -1){
+				return __rect_out__.top;
+			} else {
+				return parent.__rect_out__.top - __rect_out__.top;
+			}
+		} else {
+			show_message("You need to calculate the gui element before use it.");
+		}
+	}
+	static get_calculated_bottom = function(absolute = true){
+		if(!is_undefined(__rect_out__)){
+			if(absolute or parent == -1){
+				return __rect_out__.bottom;
+			} else {
+				return parent.__rect_out__.bottom - __rect_out__.bottom;
+			}
+		} else {
+			show_message("You need to calculate the gui element before use it.");
+		}
+	}
+	static get_left = function(){
+		return left;
+	}
+	static get_right = function(){
+		return right;
+	}
+	static get_top = function(){
+		return top;
+	}
+	static get_bottom = function(){
+		return bottom;
+	}
+	static get_width = function(){
+		return width;
+	}
+	static get_height = function(){
+		return height;
+	}
+	static get_offset_x = function(){
+		return offset_x;
+	}
+	static get_offset_y = function(){
+		return offset_y;
+	}
+	static get_padding_left = function(){
+		return padding_left;
+	}
+	static get_padding_right = function(){
+		return padding_right;
+	}
+	static get_padding_top = function(){
+		return padding_top;
+	}
+	static get_padding_bottom = function(){
+		return padding_bottom;
+	}
+	
+	static set_left = function(left){
+		self.left = left;
+	}
+	static set_right = function(right){
+		self.right = right;
+	}
+	static set_top = function(top){
+		self.top = top;
+	}
+	static set_bottom = function(bottom){
+		self.bottom = bottom;
+	}
+	static set_width = function(width){
+		self.width = width;
+	}
+	static set_height = function(height){
+		self.height = height;
+	}
+	static set_offset_x = function(offset_x){
+		self.offset_x = offset_x;
+	}
+	static set_offset_y = function(offset_y){
+		self.offset_y = offset_y;
+	}
+	static set_padding_left = function(padding_left){
+		self.padding_left = padding_left;
+	}
+	static set_padding_right = function(padding_right){
+		self.padding_right = padding_right;
+	}
+	static set_padding_top = function(padding_top){
+		self.padding_top = padding_top;
+	}
+	static set_padding_bottom = function(padding_bottom){
+		self.padding_bottom = padding_bottom;
+	}
 	
 	static destroy = function(destroy_children = true)
 	{
