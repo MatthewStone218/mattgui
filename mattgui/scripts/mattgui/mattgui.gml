@@ -23,7 +23,8 @@ function __mattgui_node__(parent, struct) constructor
 	width = undefined;
 	height = undefined;
 	padding = {left: undefined, right: undefined, top: undefined, bottom: undefined};
-	offset = {x: 0, y: 0};
+	offset_x = 0;
+	offset_y = 0;
 	
 	prev_vals =
 	{
@@ -37,8 +38,8 @@ function __mattgui_node__(parent, struct) constructor
 		padding_right: padding.right,
 		padding_top: padding.top,
 		padding_bottom: padding.bottom,
-		offset_x: offset.x,
-		offset_y: offset.y,
+		offset_x: offset_x,
+		offset_y: offset_y,
 	}
 	
 	children = [];
@@ -131,7 +132,7 @@ function __mattgui_node__(parent, struct) constructor
 	
 	static calculate = function(calculate_chindren = true, calculate_all = true)
 	{
-		if(calculate_all or prev_vals.left != left or prev_vals.right != right or prev_vals.top != top or prev_vals.bottom != bottom or prev_vals.width != width or prev_vals.height != height or prev_vals.padding_left != padding.left or prev_vals.padding_right != padding.right or prev_vals.padding_top != padding.top or prev_vals.padding_bottom != padding.bottom or prev_vals.offset_x != offset.x or prev_vals.offset_y != offset.y)
+		if(calculate_all or prev_vals.left != left or prev_vals.right != right or prev_vals.top != top or prev_vals.bottom != bottom or prev_vals.width != width or prev_vals.height != height or prev_vals.padding_left != padding.left or prev_vals.padding_right != padding.right or prev_vals.padding_top != padding.top or prev_vals.padding_bottom != padding.bottom or prev_vals.offset_x != offset_x or prev_vals.offset_y != offset_y)
 		{
 			if(parent == -1)
 			{
@@ -166,6 +167,14 @@ function __mattgui_node__(parent, struct) constructor
 			
 				__rect_out__.width = __rect_out__.right-__rect_out__.left;
 				__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
+			
+				var _offset_x = -(is_real(offset_x) ? offset_x : __rect_out__.width*percent_to_real(offset_x)/100);
+				var _offset_y = -(is_real(offset_y) ? offset_y : __rect_out__.height*percent_to_real(offset_y)/100);
+			
+				__rect_out__.left += _offset_x;
+				__rect_out__.right += _offset_x;
+				__rect_out__.top += _offset_y;
+				__rect_out__.bottom += _offset_y;
 			
 				__rect_in__ =
 				{
@@ -254,8 +263,8 @@ function __mattgui_node__(parent, struct) constructor
 				__rect_out__.width = __rect_out__.right-__rect_out__.left;
 				__rect_out__.height = __rect_out__.bottom-__rect_out__.top;
 			
-				var _offset_x = -(is_real(offset.x) ? offset.x : __rect_out__.width*percent_to_real(offset.x)/100);
-				var _offset_y = -(is_real(offset.y) ? offset.y : __rect_out__.height*percent_to_real(offset.y)/100);
+				var _offset_x = -(is_real(offset_x) ? offset_x : __rect_out__.width*percent_to_real(offset_x)/100);
+				var _offset_y = -(is_real(offset_y) ? offset_y : __rect_out__.height*percent_to_real(offset_y)/100);
 			
 				__rect_out__.left += _offset_x;
 				__rect_out__.right += _offset_x;
@@ -286,8 +295,8 @@ function __mattgui_node__(parent, struct) constructor
 				padding_right: padding.right,
 				padding_top: padding.top,
 				padding_bottom: padding.bottom,
-				offset_x: offset.x,
-				offset_y: offset.y,
+				offset_x: offset_x,
+				offset_y: offset_y,
 			}
 		
 			if(calculate_chindren)
