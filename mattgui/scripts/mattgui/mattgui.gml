@@ -401,6 +401,12 @@ function __mattgui_node__(parent, struct) constructor
 			show_message("You need to calculate the gui element before use it.");
 		}
 	}
+	static get_calculated_width = function(absolute = true){
+		return get_calculated_left.right()-get_calculated_left();
+	}
+	static get_calculated_height = function(absolute = true){
+		return get_calculated_left.bottom()-get_calculated_top();
+	}
 	static get_left = function(){
 		return left;
 	}
