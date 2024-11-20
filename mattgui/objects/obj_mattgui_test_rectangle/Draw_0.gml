@@ -4,6 +4,6 @@
 draw_set_color(c_white);
 draw_set_alpha(1);
 
-var _struct = gui.get_values();
+var _struct = gui.get_calculated_values();
 
 draw_rectangle(_struct.left,_struct.top,_struct.right,_struct.bottom,true);
