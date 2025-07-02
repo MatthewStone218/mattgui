@@ -14,6 +14,7 @@ function __mattgui_node__(parent, struct) constructor
 		array_push(parent.children,self);
 	}
 
+	active = true;
 	__rect_in__ = undefined;
 	__rect_out__ = undefined;
 	left = undefined;
@@ -52,6 +53,9 @@ function __mattgui_node__(parent, struct) constructor
 	
 	static set_values = function(x1, y1, x2, y2, _left, _right, _top, _bottom, _width, _height)
 	{
+		if(!active){
+			return;
+		}
 		if(parent == -1)
 		{
 			show_error($"MattGUI: Root node can't use set_values.",true);
@@ -132,6 +136,9 @@ function __mattgui_node__(parent, struct) constructor
 	
 	static calculate = function(calculate_chindren = true, calculate_all = true)
 	{
+		if(!active){
+			return;
+		}
 		if(calculate_all or prev_vals.left != left or prev_vals.right != right or prev_vals.top != top or prev_vals.bottom != bottom or prev_vals.width != width or prev_vals.height != height or prev_vals.padding_left != padding.left or prev_vals.padding_right != padding.right or prev_vals.padding_top != padding.top or prev_vals.padding_bottom != padding.bottom or prev_vals.offset_x != offset_x or prev_vals.offset_y != offset_y)
 		{
 			if(parent == -1)
@@ -400,6 +407,15 @@ function __mattgui_node__(parent, struct) constructor
 		} else {
 			show_message("You need to calculate the gui element before use it.");
 		}
+	}
+	static is_active = function(){
+		return self.active;
+	}
+	static activate = function(){
+		self.active = true;
+	}
+	static deactivate = function(){
+		self.active = false;
 	}
 	static get_calculated_width = function(absolute = true){
 		return get_calculated_right()-get_calculated_left();
